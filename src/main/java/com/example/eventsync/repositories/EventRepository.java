@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 @Mapper
@@ -22,4 +23,9 @@ public interface EventRepository {
             SELECT * FROM events
             """)
     List<Event> selectAllEvents();
+
+    @Select("""
+            SELECT * FROM events WHERE id = #{id}
+            """)
+    Event findById(UUID id);
 }
