@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class CreateEventResponse {
+public class EventResponse {
     private UUID id;
     private String title;
     private String description;
