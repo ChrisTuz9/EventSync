@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface FeedbackRepository {
     @Insert("""
-            INSERT INTO feedbacks (id, eventId, message, created_at)
+            INSERT INTO feedbacks (id, event_id, message, created_at)
             VALUES (#{id}, #{eventId}, #{message}, #{createdAt})
             """)
     void insertFeedback(Feedback feedback);
