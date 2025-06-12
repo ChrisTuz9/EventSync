@@ -1,5 +1,6 @@
 package com.example.eventsync.dtos;
 
+import com.example.eventsync.model.SentimentType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,4 +14,5 @@ public class FeedbackResponse {
     private UUID eventId;
     private String message;
     private Instant createdAt;
+    private SentimentType sentiment;
 }
