@@ -1,5 +1,6 @@
 package com.example.eventsync.repositories;
 
+import com.example.eventsync.dtos.SentimentCount;
 import com.example.eventsync.model.Feedback;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.MapKey;
@@ -7,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -20,11 +21,10 @@ public interface FeedbackRepository {
     void insertFeedback(Feedback feedback);
 
     @Select("""
-            SELECT sentiment, COUNT (*)
+            SELECT sentiment, COUNT (*) AS count
             FROM feedbacks
             WHERE event_id = #{eventId}
             GROUP BY sentiment
             """)
-    @MapKey("sentiment")
-    Map<String, Integer> countSentimentsByEventId(UUID eventId);
+    List<SentimentCount> countSentimentsByEventId(UUID eventId);
 }

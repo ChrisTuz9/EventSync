@@ -3,6 +3,7 @@ package com.example.eventsync.services;
 import com.example.eventsync.dtos.CreateEventRequest;
 import com.example.eventsync.dtos.EventResponse;
 import com.example.eventsync.dtos.EventSentimentSummaryResponse;
+import com.example.eventsync.dtos.SentimentCount;
 import com.example.eventsync.mapper.EventMapper;
 import com.example.eventsync.model.Event;
 import com.example.eventsync.repositories.EventRepository;
@@ -15,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -39,7 +41,10 @@ public class EventService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
         }
 
-        Map<String, Integer> sentimentsCount = feedbackRepository.countSentimentsByEventId(eventId);
+        List<SentimentCount> counts = feedbackRepository.countSentimentsByEventId(eventId);
+
+        Map<String, Integer> sentimentsCount = counts.stream()
+                .collect(Collectors.toMap(SentimentCount::getSentiment, SentimentCount::getCount));
 
         return EventSentimentSummaryResponse.builder()
                 .positiveCount(sentimentsCount.getOrDefault("POSITIVE", 0))
