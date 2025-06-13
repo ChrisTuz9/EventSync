@@ -13,4 +13,5 @@ public class Feedback {
     private UUID eventId;
     private String message;
     private Instant createdAt;
+    private SentimentType sentiment;
 }

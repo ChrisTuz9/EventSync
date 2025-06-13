@@ -6,4 +6,5 @@
 
     <include file="db/changelog/changesets/001-create-events-table.xml"/>
     <include file="db/changelog/changesets/002-create-feedbacks-table.xml"/>
+    <include file="db/changelog/changesets/003-add-sentiment-type-to-feedbacks-table.xml"/>
 </databaseChangeLog>
