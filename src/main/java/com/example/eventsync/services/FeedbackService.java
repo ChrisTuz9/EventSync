@@ -39,7 +39,7 @@ public class FeedbackService {
 
         SentimentType sentimentType = mapLabelToSentimentType(topSentiment.getLabel());
 
-        Feedback feedback = FeedbackMapper.fromDto(request, eventId);
+        Feedback feedback = FeedbackMapper.fromDto(request, eventId, sentimentType);
         feedbackRepository.insertFeedback(feedback);
         return FeedbackMapper.toDto(feedback);
     }
