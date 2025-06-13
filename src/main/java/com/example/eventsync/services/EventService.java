@@ -43,13 +43,6 @@ public class EventService {
 
         List<SentimentCount> counts = feedbackRepository.countSentimentsByEventId(eventId);
 
-        Map<String, Integer> sentimentsCount = counts.stream()
-                .collect(Collectors.toMap(SentimentCount::getSentiment, SentimentCount::getCount));
-
-        return EventSentimentSummaryResponse.builder()
-                .positiveCount(sentimentsCount.getOrDefault("POSITIVE", 0))
-                .neutralCount(sentimentsCount.getOrDefault("NEUTRAL", 0))
-                .negativeCount(sentimentsCount.getOrDefault("NEGATIVE", 0))
-                .build();
+        return EventMapper.toSentimentSummary(counts);
     }
 }
