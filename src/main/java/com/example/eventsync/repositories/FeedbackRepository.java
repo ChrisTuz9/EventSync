@@ -26,5 +26,5 @@ public interface FeedbackRepository {
             GROUP BY sentiment
             """)
     @MapKey("sentiment")
-    Map<String, Integer> countSentimentsByEvent(UUID eventId);
+    Map<String, Integer> countSentimentsByEventId(UUID eventId);
 }
