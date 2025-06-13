@@ -31,10 +31,25 @@ public class FeedbackService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
         }
 
-        SentimentResponse[] res = sentimentApiClient.analyzeMessage(request.getMessage())[0];
+        SentimentResponse[] sentimentResponses = sentimentApiClient.analyzeMessage(request.getMessage())[0];
+
+        SentimentResponse topSentiment = Arrays.stream(sentimentResponses)
+                .max((a, b) -> Double.compare(a.getScore(), b.getScore()))
+                .orElseThrow(() -> new RuntimeException("No sentiment result returned."));
+
+        SentimentType sentimentType = mapLabelToSentimentType(topSentiment.getLabel());
 
         Feedback feedback = FeedbackMapper.fromDto(request, eventId);
         feedbackRepository.insertFeedback(feedback);
         return FeedbackMapper.toDto(feedback);
+    }
+
+    private SentimentType mapLabelToSentimentType(String label) {
+        return switch(label) {
+            case "LABEL_0" -> SentimentType.NEGATIVE;
+            case "LABEL_1" -> SentimentType.NEUTRAL;
+            case "LABEL_2" -> SentimentType.POSITIVE;
+            default -> throw new RuntimeException("Unknown sentiment label: " + label);
+        };
     }
 }
