@@ -1,5 +1,7 @@
 # EventSync
 
+⚠️ Note: This version is configured for a PostgreSQL database. If you want to work with H2, please switch to the `main-h2` branch.
+
 ## Setting Up Environment Variables
 
 To securely configure your database credentials and other
